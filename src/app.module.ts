@@ -3,20 +3,21 @@ import {AppController} from './app.controller';
 import {AppService} from './app.service';
 import {CoffeeModule} from './coffee/coffee.module';
 import {TypeOrmModule} from "@nestjs/typeorm";
-import {Coffee} from "./coffee/entities/coffee.entity";
-import {Flavor} from "./coffee/entities/flavor.entity";
+import {ConfigModule, ConfigService} from '@nestjs/config';
+import typeorm from './config/typeorm';
 
 @Module({
-    imports: [CoffeeModule, TypeOrmModule.forRoot({
-        type: "mysql",
-        host: "localhost",
-        port: 3306,
-        username: "root",
-        password: "",
-        database: "coffees",
-        autoLoadEntities: true,
-        synchronize: true,
-    })],
+    imports: [
+        CoffeeModule,
+        ConfigModule.forRoot({
+            isGlobal: true,
+            load: [typeorm]
+        }),
+        TypeOrmModule.forRootAsync({
+            inject: [ConfigService],
+            useFactory: async (configService: ConfigService) => (configService.get('typeorm'))
+        })
+    ],
     controllers: [AppController],
     providers: [AppService],
 })

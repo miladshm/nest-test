@@ -1,7 +1,8 @@
-import {Body, Controller, Delete, Get, Param, Patch, Post, Query} from '@nestjs/common';
+import {Body, Controller, Delete, Get, Param, Post, Put, Query} from '@nestjs/common';
 import {CoffeeService} from "./coffee.service";
 import {CreateCoffeeDto} from "./dto/create-coffee.dto";
 import {UpdateCoffeeDto} from "./dto/update-coffee.dto";
+import {PaginationQueryDto} from "../common/dto/pagination-query.dto";
 
 @Controller('coffee')
 export class CoffeeController {
@@ -10,9 +11,8 @@ export class CoffeeController {
     }
 
     @Get()
-    index(@Query() pagination) {
-        // const {limit, offset} = pagination;
-        return this.coffeeService.index();
+    index(@Query() pagination: PaginationQueryDto) {
+        return this.coffeeService.index(pagination);
     }
 
     @Get(':id')
@@ -26,7 +26,7 @@ export class CoffeeController {
         return this.coffeeService.create(body);
     }
 
-    @Patch(':id')
+    @Put(':id')
     update(@Param('id') id: number, @Body() body: UpdateCoffeeDto) {
         //This action updates new coffee
         return this.coffeeService.update(id, body);

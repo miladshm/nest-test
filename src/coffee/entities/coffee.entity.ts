@@ -13,10 +13,14 @@ export class Coffee {
     @Column()
     brand: string;
 
+    @Column({default: 0, unsigned: true, type: 'tinyint'})
+    recommendations: number
+
     @JoinTable()
     @ManyToMany(
         type => Flavor,
-        (flavor) => flavor.coffees
-        )
-    flavors: string[];
+        (flavor) => flavor.coffees,
+        {cascade: true}
+    )
+    flavors: Flavor[];
 }
