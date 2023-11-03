@@ -10,11 +10,6 @@ import appConfig from "./config/app.config";
 
 @Module({
     imports: [
-        CoffeeModule,
-        TypeOrmModule.forRootAsync({
-            inject: [ConfigService],
-            useFactory: async (configService: ConfigService) => (configService.get('database'))
-        }),
         ConfigModule.forRoot({
             validationSchema: Joi.object({
                 DB_CONNECTION: Joi.string().required(),
@@ -27,6 +22,11 @@ import appConfig from "./config/app.config";
             isGlobal: true,
             load: [appConfig]
         }),
+        TypeOrmModule.forRootAsync({
+            inject: [ConfigService],
+            useFactory: async (configService: ConfigService) => (configService.get('database'))
+        }),
+        CoffeeModule,
         CoffeeRatingModule
     ],
     controllers: [AppController],
