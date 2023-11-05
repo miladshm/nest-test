@@ -3,6 +3,7 @@ import {CoffeeService} from "./coffee.service";
 import {CreateCoffeeDto} from "./dto/create-coffee.dto";
 import {UpdateCoffeeDto} from "./dto/update-coffee.dto";
 import {PaginationQueryDto} from "../common/dto/pagination-query.dto";
+import {Public} from "../common/decorators/public.decorator";
 
 @Controller('coffee')
 export class CoffeeController {
@@ -11,6 +12,7 @@ export class CoffeeController {
     }
 
     @Get()
+    @Public()
     index(@Query() pagination: PaginationQueryDto) {
         return this.coffeeService.index(pagination);
     }

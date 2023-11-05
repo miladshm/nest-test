@@ -5,6 +5,7 @@ import {CoffeeModule} from './coffee/coffee.module';
 import {TypeOrmModule} from "@nestjs/typeorm";
 import {ConfigModule, ConfigService} from '@nestjs/config';
 import {CoffeeRatingModule} from './coffee-rating/coffee-rating.module';
+import {CommonModule} from './common/common.module';
 import * as Joi from "@hapi/joi";
 import appConfig from "./config/app.config";
 
@@ -27,7 +28,8 @@ import appConfig from "./config/app.config";
             useFactory: async (configService: ConfigService) => (configService.get('database'))
         }),
         CoffeeModule,
-        CoffeeRatingModule
+        CoffeeRatingModule,
+        CommonModule
     ],
     controllers: [AppController],
     providers: [AppService],
